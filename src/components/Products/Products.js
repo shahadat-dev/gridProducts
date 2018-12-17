@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import classes from './Products.css'
+
 class Products extends Component {
   constructor() {
     super()
@@ -17,12 +19,15 @@ class Products extends Component {
       })
       .catch(err => console.log(err))
   }
+
   render() {
     const { products } = this.state
     const productList = products.map(product => (
-      <li key={product.id}>{product.face}</li>
+      <div className={classes.box} key={product.id}>
+        {product.face}
+      </div>
     ))
-    return <ul>{productList}</ul>
+    return <div className={classes.wrapper}>{productList}</div>
   }
 }
 
