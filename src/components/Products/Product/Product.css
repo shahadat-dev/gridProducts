@@ -1,0 +1,8 @@
+.Box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 50px;
+
+  text-align: center;
+}

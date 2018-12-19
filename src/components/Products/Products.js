@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import classes from './Products.css'
+import Product from './Product/Product'
 
 const scroll = that => {
   // Scroll
@@ -64,13 +65,8 @@ class Products extends Component {
 
   render() {
     const { products } = this.state
-    console.log(products)
-    const productList = products.map(product => (
-      <div className={classes.box} key={product.id}>
-        {product.face}
-      </div>
-    ))
-    return <div className={classes.wrapper}>{productList}</div>
+    const productList = products.map(product => <Product product={product} />)
+    return <div className={classes.Wrapper}>{productList}</div>
   }
 }
 
