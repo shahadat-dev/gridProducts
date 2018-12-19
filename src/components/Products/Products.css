@@ -1,7 +1,11 @@
-.Wrapper {
+.ProductsGrid {
   display: grid;
   grid-template-columns: 25% 25% 25%;
   grid-gap: 50px;
   background-color: #fff;
   color: #444;
+}
+
+.Sort {
+  padding: 10px 0px;
 }
