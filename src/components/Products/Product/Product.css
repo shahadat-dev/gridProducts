@@ -2,7 +2,14 @@
   background-color: #444;
   color: #fff;
   border-radius: 5px;
-  padding: 50px;
-
+  padding: 50px 5px 10px;
   text-align: center;
+}
+
+.BoxTop {
+  min-height: 150px;
+}
+
+.BoxBottom {
+  border-top: 1px solid;
 }

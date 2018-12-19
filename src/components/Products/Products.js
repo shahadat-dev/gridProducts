@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import classes from './Products.css'
 import Product from './Product/Product'
+import Loading from '../common/Loading/Loading'
 
 const scroll = that => {
   // Scroll
@@ -27,7 +28,8 @@ class Products extends Component {
     this.state = {
       products: [],
       page: 1,
-      limit: 15
+      limit: 15,
+      isLoading: false
     }
     this.fetchDataNextPage.bind(this)
   }
@@ -49,6 +51,7 @@ class Products extends Component {
   }
 
   fetchDataNextPage() {
+    this.setState({ isLoading: true })
     fetch(
       `http://localhost:3000/api/products?_page=${this.state.page + 1}&_limit=${
         this.state.limit
@@ -58,15 +61,26 @@ class Products extends Component {
       .then(json => {
         const { products } = this.state
         const newProducts = [...products, ...json]
-        this.setState({ products: newProducts, page: this.state.page + 1 })
+        this.setState({
+          products: newProducts,
+          page: this.state.page + 1,
+          isLoading: false
+        })
       })
       .catch(err => console.log(err))
   }
 
   render() {
-    const { products } = this.state
-    const productList = products.map(product => <Product product={product} />)
-    return <div className={classes.Wrapper}>{productList}</div>
+    const { products, isLoading } = this.state
+    const productList = products.map(product => (
+      <Product key={product.id} product={product} />
+    ))
+    let productsContent = isLoading ? (
+      <Loading />
+    ) : (
+      <div className={classes.Wrapper}>{productList}</div>
+    )
+    return productsContent
   }
 }
 
