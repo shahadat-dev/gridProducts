@@ -23,6 +23,21 @@ const scroll = that => {
   }
 }
 
+// Fetch next chunk of data after a while, for better user experience
+const fetchNextChunkWhileIdle = that => {
+  setTimeout(
+    function(that) {
+      alert('next chunk')
+
+      if (that.state.nextChunkOfProducts.length == 0) {
+        that.fetchNextChunkOfProducts()
+      }
+    },
+    5000,
+    that
+  )
+}
+
 class Products extends Component {
   constructor() {
     super()
@@ -32,7 +47,7 @@ class Products extends Component {
       limit: 5,
       sort: -1,
       isLoading: false,
-      nextChunkLoaded: false
+      nextChunkOfProducts: []
     }
     this.fetchDataNextPage.bind(this)
   }
@@ -46,6 +61,9 @@ class Products extends Component {
       .then(res => res.json())
       .then(json => {
         this.setState({ products: json })
+
+        // Fetch next chunk of data
+        fetchNextChunkWhileIdle(this)
       })
       .catch(err => console.log(err))
 
@@ -54,6 +72,20 @@ class Products extends Component {
   }
 
   fetchDataNextPage() {
+    // Check if next chunk already loaded
+    if (this.state.nextChunkOfProducts.length > 0) {
+      const { products, nextChunkOfProducts } = this.state
+      const newProducts = [...products, ...nextChunkOfProducts]
+      this.setState({
+        products: newProducts,
+        nextChunkOfProducts: [],
+        page: this.state.page + 1
+      })
+      // Fetch next chunk of data
+      fetchNextChunkWhileIdle(this)
+      return
+    }
+
     // Set loading to true
     this.setState({ isLoading: true })
 
@@ -74,6 +106,27 @@ class Products extends Component {
           products: newProducts,
           page: this.state.page + 1,
           isLoading: false
+        })
+
+        // Fetch next chunk of data
+        fetchNextChunkWhileIdle(this)
+      })
+      .catch(err => console.log(err))
+  }
+
+  fetchNextChunkOfProducts() {
+    const fetch_url =
+      this.state.sort != -1
+        ? `http://localhost:3000/api/products?_page=${this.state.page +
+            1}&_limit=${this.state.limit}&_sort=${this.state.sort}`
+        : `http://localhost:3000/api/products?_page=${this.state.page +
+            1}&_limit=${this.state.limit}`
+
+    fetch(fetch_url)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          nextChunkOfProducts: json
         })
       })
       .catch(err => console.log(err))
@@ -96,6 +149,9 @@ class Products extends Component {
       .then(res => res.json())
       .then(json => {
         this.setState({ products: json, sort, page: 1 })
+
+        // Fetch next chunk of data
+        fetchNextChunkWhileIdle(this)
       })
       .catch(err => console.log(err))
   }
@@ -103,9 +159,10 @@ class Products extends Component {
   render() {
     const options = ['Id', 'Price', 'Size']
     const { products, isLoading } = this.state
+    console.log(products)
 
-    const productList = products.map(product => (
-      <Product key={product.id} product={product} />
+    const productList = products.map((product, index) => (
+      <Product key={index} product={product} />
     ))
     let productsContent = isLoading ? (
       <Loading />
