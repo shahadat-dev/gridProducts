@@ -1,0 +1,12 @@
+.Box {
+  /* background-color: #444;
+  color: #fff;
+  border-radius: 5px; */
+  padding: 50px 5px 10px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.Box img {
+  width: 180px;
+}

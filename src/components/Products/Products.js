@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import classes from './Products.css'
 import Product from './Product/Product'
+import Ad from './Ad/Ad'
 import Loading from '../common/Loading/Loading'
 
 // Scroll
@@ -27,7 +28,7 @@ const scroll = that => {
 const loadNextChunk = that => {
   setTimeout(
     function(that) {
-      alert('next chunk')
+      // alert('next chunk')
 
       if (that.state.nextChunkOfProducts.length == 0) {
         that.fetchNextChunk()
@@ -44,7 +45,7 @@ class Products extends Component {
     this.state = {
       products: [],
       page: 1,
-      limit: 5,
+      limit: 50,
       sort: -1,
       isLoading: false,
       nextChunkOfProducts: []
@@ -165,9 +166,25 @@ class Products extends Component {
     const options = ['Id', 'Price', 'Size']
     const { products, isLoading } = this.state
 
-    const productList = products.map((product, index) => (
-      <Product key={index} product={product} />
-    ))
+    const productsWithAd = [...products]
+
+    let ads = products.length / 20
+
+    let index = 20
+    for (let i = 1; i < ads; i++) {
+      let ads = { type: 'ad', id: index }
+      productsWithAd.splice(index, 0, ads)
+      index += 20
+    }
+
+    const productList = productsWithAd.map((product, index) => {
+      if (product.type && product.type === 'ad') {
+        return <Ad key={index} ad={product} />
+      } else {
+        return <Product key={index} product={product} />
+      }
+    })
+
     let productsContent = isLoading ? (
       <Loading />
     ) : (
