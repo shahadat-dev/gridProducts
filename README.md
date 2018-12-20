@@ -4,9 +4,9 @@ This is an ecommerce site, where you can buy all sorts of ascii faces like `(ノ
 
 ## How To Run
 
-`npm install` to install dependencies
-`npm start` to run the `josn-server`
-`npm run dev` to run react app and browse to _http://localhost:8080/_
+- `npm install` to install dependencies
+- `npm start` to run the `josn-server`
+- `npm run dev` to run react app and browse to _http://localhost:8080/_
 
 ## Tools used
 
@@ -14,7 +14,8 @@ This is an ecommerce site, where you can buy all sorts of ascii faces like `(ノ
 - `json-server`
 - `webpack`
 - `babel`
-  _No plugin used for scrolling and showing datetime_
+
+_No plugin used for scrolling and showing datetime_
 
 ## Features
 
@@ -22,9 +23,10 @@ This is an ecommerce site, where you can buy all sorts of ascii faces like `(ノ
 - Can sort by "size", "price" or "id".
 - the product grid automatically load more items as you scroll down.
 - display an animated "loading..." message while the user waits for the data to load.
-- to improve the user's experience, next bunch of data loaded automatically after 5 seconds of each loading
+- to improve the user's experience, next bunch of data loaded automatically after 5 seconds of each loading _(it may contain a bug, need to fix it)_
 - when the user reaches the end and there are no more products to display, message "~ end of catalogue ~" is displayed.
 - after 20 products an ad is displayed
+- load 50 products as a chunk
 
 ## Products API
 
