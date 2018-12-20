@@ -4,6 +4,10 @@
   bottom: 10%;
   display: block;
   z-index: 1000;
-  height: 31px;
-  width: 31px;
+
+  overflow: show;
+  margin: auto;
+  color: red;
+  background: yellow;
+  padding: 5px;
 }

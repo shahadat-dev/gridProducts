@@ -45,7 +45,7 @@ class Products extends Component {
     this.state = {
       products: [],
       page: 1,
-      limit: 50,
+      limit: 5,
       sort: -1,
       isLoading: false,
       nextChunkOfProducts: []
@@ -136,6 +136,8 @@ class Products extends Component {
   selectChangeHandler(e) {
     const sort = e.target.value
 
+    this.setState({ isLoading: true })
+
     // Set fetch URL depending on sort option
     const fetch_url =
       sort != -1
@@ -153,7 +155,8 @@ class Products extends Component {
           products: json,
           sort,
           page: 1,
-          nextChunkOfProducts: []
+          nextChunkOfProducts: [],
+          isLoading: false
         })
 
         // Fetch next chunk of data
@@ -185,9 +188,7 @@ class Products extends Component {
       }
     })
 
-    let productsContent = isLoading ? (
-      <Loading />
-    ) : (
+    let productsContent = (
       <div>
         <div className={classes.Sort}>
           <select onChange={this.selectChangeHandler.bind(this)}>
@@ -207,8 +208,10 @@ class Products extends Component {
         </div>
         <div className={classes.ProductsGrid}>{productList}</div>
         {products.length >= 500 && '~	end	of	catalogue	~'}
+        {isLoading && <Loading />}
       </div>
     )
+
     return productsContent
   }
 }
