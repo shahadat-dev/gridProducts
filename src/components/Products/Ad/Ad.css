@@ -8,5 +8,5 @@
 }
 
 .Box img {
-  width: 180px;
+  max-width: 100%;
 }
