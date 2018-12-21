@@ -45,7 +45,7 @@ class Products extends Component {
     this.state = {
       products: [],
       page: 1,
-      limit: 5,
+      limit: 20,
       sort: -1,
       isLoading: false,
       nextChunkOfProducts: []
